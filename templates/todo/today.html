@@ -1,11 +1,31 @@
 {% extends "base.html" %}
+
 {% block content %}
-    <h1>Things to do today:</h1>
+    <h1>ToDo Items for Today</h1>
+    <div>
+        <a class="button" href="{% url 'create_todo' %}">Create New Item</a>
+    </div>
     <table>
-        {% for item in object_list %}
+        <thead>
         <tr>
-            <td>{{ item.text }}</td>
+            <th>Text</th>
+            <th>Actions</th>
         </tr>
+        </thead>
+        <tbody>
+        {% for todo in todos %}
+            <tr>
+                <td>{{ todo.text }}</td>
+                <td>
+                    <a href="{% url 'update_todo' pk=todo.pk %}">Update</a> |
+                    <a href="{% url 'delete_todo' pk=todo.pk %}">Delete</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="2">No ToDo items due today.</td>
+            </tr>
         {% endfor %}
+        </tbody>
     </table>
 {% endblock %}
